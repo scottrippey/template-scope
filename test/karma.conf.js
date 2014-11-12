@@ -13,12 +13,13 @@ module.exports = function(config) {
     frameworks: ['jasmine'],
 
 
-    // list of files / patterns to load in the browser
+    // list of files  / patterns to load in the browser
     files: [
       'lib/**/angular.js',
       'lib/**/angular-mocks.js',
       '../src/**/*.js',
-      'specs/**/*.js'
+      'specs/**/*.js',
+      'specs/**/*.html'
     ],
 
 
@@ -26,6 +27,23 @@ module.exports = function(config) {
     exclude: [
     ],
 
+    ngHtml2JsPreprocessor: {
+      // strip this from the file path
+      stripPrefix: 'specs/templates/',
+      //stripSufix: '.ext',
+      // prepend this to the
+      //prependPrefix: 'served/',
+
+      // or define a custom transform function
+      //cacheIdFromPath: function(filepath) {
+      //  return cacheId;
+      //},
+
+      // setting this option will create only a single module that contains templates
+      // from all the files, so you can load them all with module('foo')
+      moduleName: 'spec-templates'
+    },
+    
 
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
@@ -33,7 +51,8 @@ module.exports = function(config) {
       // source files, that you wanna generate coverage for
       // do not include tests or libraries
       // (these files will be instrumented by Istanbul)
-      '../src/**/*.js': ['coverage']
+      '../src/**/*.js': ['coverage'],
+      'specs/**/*.html': ['ng-html2js']
     },
 
     // test results reporter to use

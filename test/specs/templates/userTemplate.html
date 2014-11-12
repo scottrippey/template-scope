@@ -1,0 +1,5 @@
+<div template-scope='{ title: "@", user: "=", select: "&onSelect" }'>
+	<h2> {{ title }} </h2>
+	<h3> {{ user.first }} {{ user.last }} </h3>
+	<button ng-click='select()'> Select </button>
+</div>

@@ -1,0 +1,24 @@
+<div>
+	<div 
+		ng-include="'userTemplate.html'" 
+		template-scope-set 
+		title="Hello {{ user1.first }}"
+		user="user1" 
+		on-select="selectedUser = user1" 
+	></div>
+	<div 
+		ng-include="'userTemplate.html'"
+		template-scope-set 
+		title="Hi {{ user2.first }}" 
+		user="user2" 
+		on-select="selectedUser = user2" 
+	></div>
+	
+	<div 
+		ng-include="'userTemplate.html'"
+		template-scope-set 
+		title="{{ selectedUser.first }}" 
+		user="selectedUser" 
+		on-select="selectedUser = null" 
+	></div>
+</div>
