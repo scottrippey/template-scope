@@ -2,8 +2,10 @@ angular.module('templateScope', [])
 	.directive('templateScopeSet', function () {
 		return {
 			controller: 'templateScopeController',
-			link: function (scope, element, attrs, setCtrl) {
-				setCtrl.setBindings(scope, attrs);
+			link: { 
+				pre: function (scope, element, attrs, setCtrl) {
+					setCtrl.setBindings(scope, attrs);
+				}
 			}
 		};
 	})
@@ -25,12 +27,12 @@ angular.module('templateScope', [])
 		function setBindings(scope, attrs) {
 			parentScope = scope;
 			parentAttrs = attrs;
-
-			_applyBindings();
 		}
 		function getBindings(scope, definitions) {
 			templateScope = scope;
 			templateDefinitions = definitions;
+
+			_applyBindings();
 		}
 
 		function _applyBindings() {
