@@ -1,0 +1,84 @@
+	
+<article id="templateScope-spec" ng-controller="testTemplateScope">
+	<h1> Selected: {{ selectedUser.first }} </h1>
+	
+	<div ng-include="'userTemplate.html'" 
+		template-scope-set
+		title="Hello {{ user1.first }}"
+		user="user1" 
+		on-select="selectedUser = user1" 
+	></div>
+	<div ng-include="'userTemplate.html'"
+		template-scope-set 
+		title="Hi {{ user2.first }}" 
+		user="user2" 
+		on-select="selectedUser = user2" 
+	></div>
+	<div ng-include="'userTemplate.html'"
+		template-scope-set 
+		title="Selected {{ selectedUser.first }}" 
+		user="selectedUser" 
+		on-select="selectedUser = null" 
+	></div>
+
+	
+	<script id="userTemplate.html" type="text/ng-template">
+		
+		<div template-scope='{ title: "@", user: "=", select: "&onSelect" }'>
+			<h2> {{ title }} </h2>
+			<h3> {{ user.first }} {{ user.last }} </h3>
+			<button ng-click='select()'> Select </button>
+		</div>
+	
+	</script> 
+	
+</article>
+		
+
+<script>
+	angular.module('templateScope-spec', [ 'templateScope' ])
+	.controller('testTemplateScope', function($scope) {
+		angular.extend($scope, {
+			user1: { first: 'Dwight', last: 'Schrute' },
+			user2: { first: 'Michael', last: 'Scott' },
+			selectedUser: null
+		});
+	});
+
+	var specRoot = angular.element(document.getElementById('templateScope-spec'));
+	angular.bootstrap(specRoot[0], [ 'templateScope-spec' ]);
+	
+	describe("templateScope", function() {
+		it("@attribute bindings work", function() {
+			expect(specRoot.find('h2').text()).toBe(" Hello Dwight " + " Hi Michael " + " Selected  ");
+		});
+		
+		it("= bindings are read correctly", function() {
+			expect(specRoot.find('h3').text()).toBe(" Dwight Schrute " + " Michael Scott " + "   ");
+		});
+		it("= bindings are set correctly", function() {
+			// TODO: add a test case for this
+			throw new Error("Not implemented");
+		});
+		
+		it("& bindings are fired correctly", function() {
+			specRoot.find('button')[0].click();
+			expect(specRoot.find('h1').text()).toBe(" Selected: Dwight ");
+		});
+		
+		it("all bindings update correctly", function() {
+			specRoot.find('button')[0].click();
+			expect(specRoot.find('h2').text()).toBe(" Hello Dwight " + " Hi Michael " + " Selected:  Dwight");
+			expect(specRoot.find('h3').text()).toBe(" Dwight Schrute " + " Michael Scott " + " Dwight Schrute ");
+
+			specRoot.find('button')[1].click();
+			expect(specRoot.find('h2').text()).toBe(" Hello Dwight " + " Hi Michael " + " Selected:  Michael");
+			expect(specRoot.find('h3').text()).toBe(" Dwight Schrute " + " Michael Scott " + " Michael Scott ");
+			
+			specRoot.find('button')[2].click();
+			expect(specRoot.find('h2').text()).toBe(" Hello Dwight " + " Hi Michael " + " Selected:  ");
+			expect(specRoot.find('h3').text()).toBe(" Dwight Schrute " + " Michael Scott " + "   ");
+		});
+	});
+	
+</script>

@@ -11,7 +11,7 @@ angular.module('templateScope', [])
 	})
 	.directive('templateScope', function () {
 		return {
-			scope: true, // TODO: Bind to an isolate scope (instead of this "new" scope)
+			scope: true, // TODO: Manually bind children to an isolate scope (instead of this "new" scope)
 			require: '^templateScopeSet',
 			link: function (scope, element, attrs, templateScopeController) {
 				var definitions = scope.$eval(attrs.templateScope);

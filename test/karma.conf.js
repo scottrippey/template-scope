@@ -52,7 +52,7 @@ module.exports = function(config) {
       // do not include tests or libraries
       // (these files will be instrumented by Istanbul)
       '../src/**/*.js': ['coverage'],
-      'specs/**/*.html': ['ng-html2js']
+      'specs/**/*.html': ['injectHtml']
     },
 
     // test results reporter to use
